@@ -10,7 +10,9 @@
 // Package used for collectiing input from the user.
 const inquirer = require('inquirer');
 
-// Prompt of questions that collect input from user, the criteria of logo being created.
+console.log('Please answer the following questions/ selections to generate your new SVG logo.')
+
+// Array of questions that collect input from user, the criteria of logo being created.
 inquirer.prompt ([
   {
     type: 'input',
@@ -19,9 +21,18 @@ inquirer.prompt ([
   },
   {
     type: 'input',
+    message: 'What color would you like the text to be?',
+    name: 'textColor',
+  },
+  {
+    type: 'list',
     message: 'Select a shape for your logo.',
     name: 'shape',
     choices: ['Square', 'Circle', 'Triangle']
-  }
-
+  },
+  {
+    type: 'input',
+    message: 'What color would you like the shape to be?',
+    name: 'shapeColor',
+  },
 ])
