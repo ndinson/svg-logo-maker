@@ -10,29 +10,52 @@
 // Package used for collectiing input from the user.
 const inquirer = require('inquirer');
 
-console.log('Please answer the following questions/ selections to generate your new SVG logo.')
+// File system module needed to write svg.log file.
+const fs = require('fs');
 
+console.log('Please answer the following questions to generate your new SVG logo.')
+
+// Function wrapper to load user prompt. 
+function loadPrompt() {
 // Array of questions that collect input from user, the criteria of logo being created.
 inquirer.prompt ([
   {
     type: 'input',
-    message: 'Enter up to 3 characters that will represent your logo.',
-    name: 'name',
+    message: 'What text would you like to your logo? (Enter up to three characters)',
+    name: 'text',
   },
   {
     type: 'input',
-    message: 'What color would you like the text to be?',
+    message: 'What color would you like the text to be? (Enter keyword or hexadecimal number)',
     name: 'textColor',
   },
   {
     type: 'list',
-    message: 'Select a shape for your logo.',
+    message: 'What shape would you like your logo to be?',
     name: 'shape',
     choices: ['Square', 'Circle', 'Triangle']
   },
   {
     type: 'input',
-    message: 'What color would you like the shape to be?',
+    message: 'What color would you like the shape to be? (Enter keyword or hexadecimal number)',
     name: 'shapeColor',
   },
 ])
+.then((answers) => {
+  if (answers.text.length > 3) {
+    console.log('Text must be a maximum of three characters only!')
+    loadPrompt()
+  }
+  else {
+// Function to create content of logo.svg file.    
+    fs.writeFile('logo.svg', answers, (err) =>
+      err ? console.error(err) : console.log('Generated logo.svg') 
+  )}  
+})
+}
+
+// Fires off inquirer prompt questions when user initializes app.
+loadPrompt();
+
+
+
